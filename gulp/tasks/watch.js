@@ -9,6 +9,7 @@ gulp.task('watch', function(){
   //Browser sync options
   browserSync.init({
     notify: false,
+    open: false,
     server:{
       baseDir: "app"
     }
