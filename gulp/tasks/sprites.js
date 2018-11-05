@@ -1,7 +1,8 @@
 // This gulp action will take all the icons we have and create a spite file
 var gulp = require('gulp'),
   svgSprite = require('gulp-svg-sprite'),
-  rename = require('gulp-rename');
+  rename = require('gulp-rename'),
+  del = require('del');
 
 // Configuration for the gulp-svg-sprite package
 var config = {
@@ -17,8 +18,13 @@ var config = {
   }
 }
 
+// Clean up all files so that new svg files aren't created by accident
+gulp.task('beginClean', function(){
+  return del(['./app/temp/sprite', './app/assets/images/sprites']);
+});
+
 // Create sprite image and css for sprites
-gulp.task('createSprite', function(){
+gulp.task('createSprite', ['beginClean'], function(){
   return gulp.src('./app/assets/images/icons/**/*.svg')
     .pipe(svgSprite(config))
     .pipe(gulp.dest('./app/temp/sprite/'));
@@ -37,4 +43,9 @@ gulp.task('copySpriteCSS', ['createSprite'], function(){
     .pipe(gulp.dest('./app/assets/styles/modules'));
 });
 
-gulp.task('icons', ['createSprite', 'copySpriteCSS', 'copySpriteGraphic']);
+// Delete temp folder
+gulp.task('endClean', ['copySpriteCSS', 'copySpriteGraphic'], function(){
+  return del('./app/temp/sprite');
+});
+
+gulp.task('icons', ['beginClean', 'createSprite', 'copySpriteCSS', 'copySpriteGraphic', 'endClean']);
