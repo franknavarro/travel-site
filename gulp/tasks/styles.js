@@ -5,7 +5,8 @@ var gulp = require('gulp'),
   cssvars = require('postcss-simple-vars'),
   nested = require('postcss-nested'),
   cssImport = require('postcss-import'),
-  mixins = require('postcss-mixins');
+  mixins = require('postcss-mixins'),
+  hexrgba = require('postcss-hexrgba');
 
 
 //Task to convert all postcss to standard css.
@@ -13,7 +14,7 @@ var gulp = require('gulp'),
 //Last pipe gives the destination of where to output the css into one file
 gulp.task('styles', function(){
   return gulp.src('./app/assets/styles/styles.css')
-    .pipe(postcss([cssImport, mixins, cssvars, nested, autoprefixer]))
+    .pipe(postcss([cssImport, mixins, cssvars, nested, hexrgba, autoprefixer]))
     .on('error', function(errorInfo) {
       console.log(errorInfo.toString());
       this.emit('end');
