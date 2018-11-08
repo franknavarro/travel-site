@@ -29,6 +29,10 @@ gulp.task('watch', function(){
     //Comile postcss and inject into the webpage without reloading the page
     gulp.start('cssInject');
   });
+
+  watch("./app/assets/scripts/**/*.js", function() {
+    gulp.start('scriptsRefresh');
+  });
 });
 
 //Compile the postcss with our gulp action 'style' by adding a 3rd (2nd)
@@ -38,3 +42,7 @@ gulp.task('cssInject', ['styles'], function(){
   return gulp.src('./app/temp/styles/styles.css')
     .pipe(browserSync.stream());
 });
+
+gulp.task('scriptsRefresh', ['scripts'], function() {
+  browserSync.reload();
+})
