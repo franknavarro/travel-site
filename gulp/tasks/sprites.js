@@ -7,6 +7,11 @@ var gulp = require('gulp'),
 
 // Configuration for the gulp-svg-sprite package
 var config = {
+  shape:{
+    spacing:{
+      padding: 1
+    }
+  },
   mode: {
     css: {
       variables: {
